@@ -1,0 +1,390 @@
+# javascript calculator
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title> Calci </title>
+		<meta charset="utf-8"/>
+  </head>
+  <body>
+    <input id="inputText" type="text"/><!-- -->
+		<br/>
+		<div id="error"></div>
+		<br/>
+		<input id="nine" type="button" value="9" onclick="nine()"/>
+		<input id="eight" type="button" value="8" onclick="eight()"/>
+		<input id="seven" type="button" value="7" onclick="seven()"/>
+		
+		<br/>
+		<input id="six" type="button" value="6" onclick="six()"/>
+		<input id="five" type="button" value="5" onclick="five()"/>
+		<input id="four" type="button" value="4" onclick="four()"/>
+		
+		<br/>
+		<input id="three" type="button" value="3" onclick="three()"/>
+		<input id="two" type="button" value="2" onclick="two()"/>
+		<input id="one" type="button" value="1" onclick="one()"/>
+	
+		<br/>
+		<input id="zero" type="button" value="0" onclick="zero()"/>
+		<input type="button" value="=" onclick="validate()"/>
+		<br />	
+		<input id="divide" type="button" value="/" onclick="inputDivide()"/>
+		<input id="multiply" type="button" value="*" onclick="inputMultiply()"/>
+		<input id="minus" type="button" value="-" onclick="inputMinus()"/>
+		<br /> 
+		<input id="plus" type="button" value="+" onclick="inputPlus()"/>
+		
+		<input type="button" value="C" onclick="reset()"/>
+	<script>
+        /* buttonValue used for saving value of clicked button
+		   inputText used for saving value of text input into text box  */
+    	var buttonValue="",inputText="";
+		
+	    function validate(){ 
+			var textSplit, a, b, c; //variables for storing split values and the result of the calculation
+	    //getting the text expression entered in the text box
+	    inputText=document.getElementById("inputText").value; 
+	    //regular expression for checking if the text entered in textbox is in valid format like 2+3
+			var regex=/^(([0-9]+)|([0-9]+(\.)[0-9]+))((\+)|(\-)|(\*)|(\/))(([0-9]+)|([0-9]+(\.)[0-9]+))$/g;
+			//testing the inputText with regex
+	    var result=regex.test(inputText);
+	    if(result!=true)
+	    {
+		  //writing error message if the inputText is not in desired format into the "div" tag with id as "error"
+	      document.getElementById("error").innerHTML="Enter a correct mathematical expression"
+	    }
+			else
+			{
+		  document.getElementById("error").innerHTML=""; //clears the error tag
+		  var addRegex=/(\+)/g; //regular expression to check for + sign
+		  var subtractRegex=/(\-)/g; //regular expression to check for - sign
+		  var multiplyRegex=/(\*)/g; //regular expression to check for * sign
+		  var divideRegex=/(\/)/g; //regular expression to check for / sign
+		  //executes function for addition
+		  if(addRegex.test(inputText)==true)
+		  {
+		    //splits the string into two parts on encountering a "+"
+		    textSplit=inputText.split("+"); 
+		    a=parseFloat(textSplit[0]); //takes first part of split text and converts to integer
+		    b=parseFloat(textSplit[1]);//takes second part of split text and converts to integer
+				c=parseFloat(add(a,b));
+				document.getElementById("inputText").value=c;
+		  }
+		  //executes function for subtraction
+		  else if(subtractRegex.test(inputText)==true)
+		  {
+		    //splits the string into two parts on encountering a "-"
+		    textSplit=inputText.split("-"); 
+		    a=parseFloat(textSplit[0]); //takes first part of split text and converts to integer
+		    b=parseFloat(textSplit[1]);//takes second part of split text and converts to integer
+				c=subtract(a,b);
+				document.getElementById("inputText").value=c;
+		  }
+		  //executes function for multiplication
+		  else if(multiplyRegex.test(inputText)==true)
+		  {
+		    //splits the string into two parts on encountering a "*"
+		    textSplit=inputText.split("*"); 
+		    a=parseFloat(textSplit[0]); //takes first part of split text and converts to integer
+		    b=parseFloat(textSplit[1]);//takes second part of split text and converts to integer
+				c=multiply(a,b);
+				document.getElementById("inputText").value=c;
+		  }
+		  //executes function for division
+		  else if(divideRegex.test(inputText)==true)
+		  {
+		    //splits the string into two parts on encountering a "/"
+		    textSplit=inputText.split("/"); 
+		    a = parseFloat(textSplit[0]); //takes first part of split text and converts to integer
+  		  b = parseFloat(textSplit[1]);//takes second part of split text and converts to integer
+				c = divide(a,b);
+				document.getElementById("inputText").value=c;
+		  }
+		}
+	  }
+	 
+	  
+	  function add(a,b){       // addition
+	    var temp;
+			temp = a+b;
+			return temp;
+	  }
+
+	  function subtract(a,b){   //subtraction
+	    var temp;
+			temp = a-b;
+			return temp;
+	  }
+
+	  function multiply(a,b){  // multiplication
+	    return a*b;
+	  }
+
+	  function divide(a,b){   // division
+	    return a/b;
+	  }
+	  
+	  function inputZero(){
+	    buttonValue=document.getElementById("zero").value;
+	    inputText=getTextboxValue();
+	    return document.getElementById("inputText").value=inputText+buttonValue;
+	  }
+	  function inputOne(){
+	    buttonValue=document.getElementById("one").value;
+	    inputText=getTextboxValue();
+	    document.getElementById("inputText").value=inputText+buttonValue;
+	  }
+	  function inputTwo(){
+	    buttonValue=document.getElementById("two").value;
+	    inputText=getTextboxValue();
+	    document.getElementById("inputText").value=inputText+buttonValue;
+	  }
+	  function inputThree(){
+	    buttonValue=document.getElementById("three").value;
+	    inputText=getTextboxValue();
+	    document.getElementById("inputText").value=inputText+buttonValue;
+	  }
+	  function inputFour(){
+	    buttonValue=document.getElementById("four").value;
+	    inputText=getTextboxValue();
+	    document.getElementById("inputText").value=inputText+buttonValue;
+	  }
+	  function inputFive(){
+	    buttonValue=document.getElementById("five").value;
+	    inputText=getTextboxValue();
+	    document.getElementById("inputText").value=inputText+buttonValue;
+	  }
+	  function inputSix(){
+	    buttonValue=document.getElementById("six").value;
+	    inputText=getTextboxValue();
+	    document.getElementById("inputText").value=inputText+buttonValue;
+	  }
+	  function inputSeven(){
+	    buttonValue=document.getElementById("seven").value;
+	    inputText=getTextboxValue();
+	    document.getElementById("inputText").value=inputText+buttonValue;
+	  }
+	  function inputEight(){
+	    buttonValue=document.getElementById("eight").value;
+	    inputText=getTextboxValue();
+	    document.getElementById("inputText").value=inputText+buttonValue;
+	  }
+	  function nine(){
+	    buttonValue=document.getElementById("nine").value;
+	    inputText=getTextboxValue();
+	    document.getElementById("inputText").value=inputText+buttonValue;
+	  }
+	  function inputPlus(){
+	    buttonValue=document.getElementById("plus").value;
+	    inputText=getTextboxValue();
+		var addRegex=/(\+)/g; //regular expression to check for + sign
+		var subtractRegex=/(\-)/g; //regular expression to check for - sign
+		var multiplyRegex=/(\*)/g; //regular expression to check for * sign
+		var divideRegex=/(\/)/g; //regular expression to check for / sign
+		if((addRegex.test(inputText)==true)||(subtractRegex.test(inputText)==true)||(multiplyRegex.test(inputText)==true)||(divideRegex.test(inputText)==true)){
+		  var textSplit=inputText.split("");
+		  document.getElementById("inputText").value=textSplit[0]+buttonValue;
+		}
+		else
+	      document.getElementById("inputText").value=inputText+buttonValue;
+	  }
+	  function inputMinus(){
+	    var addRegex=/(\+)/g; //regular expression to check for + sign
+			var subtractRegex=/(\-)/g; //regular expression to check for - sign
+			var multiplyRegex=/(\*)/g; //regular expression to check for * sign
+			var divideRegex=/(\/)/g; //regular expression to check for / sign
+	    buttonValue=document.getElementById("minus").value;
+	    inputText=getTextboxValue();
+	    if((addRegex.test(inputText)==true)||(subtractRegex.test(inputText)==true)||(multiplyRegex.test(inputText)==true)||(divideRegex.test(inputText)==true)){
+		  var textSplit=inputText.split("");
+		  document.getElementById("inputText").value=textSplit[0]+buttonValue;
+		}
+		else
+	      document.getElementById("inputText").value=inputText+buttonValue;
+	  }
+	  function inputMultiply(){
+	    var addRegex=/(\+)/g; //regular expression to check for + sign
+			var subtractRegex=/(\-)/g; //regular expression to check for - sign
+			var multiplyRegex=/(\*)/g; //regular expression to check for * sign
+			var divideRegex=/(\/)/g; //regular expression to check for / sign
+	    buttonValue=document.getElementById("multiply").value;
+	    inputText=getTextboxValue();
+	    if((addRegex.test(inputText)==true)||(subtractRegex.test(inputText)==true)||(multiplyRegex.test(inputText)==true)||(divideRegex.test(inputText)==true)){
+		  var textSplit=inputText.split("");
+		  document.getElementById("inputText").value=textSplit[0]+buttonValue;
+		}
+		else
+	      document.getElementById("inputText").value=inputText+buttonValue;
+	  }
+	  function inputDivide(){
+	    var addRegex=/(\+)/g; //regular expression to check for + sign
+			var subtractRegex=/(\-)/g; //regular expression to check for - sign
+			var multiplyRegex=/(\*)/g; //regular expression to check for * sign
+			var divideRegex=/(\/)/g; //regular expression to check for / sign
+	    buttonValue=document.getElementById("divide").value;
+	    inputText=getTextboxValue();
+	    if((addRegex.test(inputText)==true)||(subtractRegex.test(inputText)==true)||(multiplyRegex.test(inputText)==true)||(divideRegex.test(inputText)==true)){
+		  var textSplit=inputText.split("");
+		  document.getElementById("inputText").value=textSplit[0]+buttonValue;
+		}
+		else
+	      document.getElementById("inputText").value=inputText+buttonValue;
+	  }
+	  function inputPoint(){
+	    buttonValue=document.getElementById("point").value;
+	    inputText=getTextboxValue();
+			document.getElementById("inputText").value=inputText+buttonValue;
+	  }
+	   
+	  // used to get the text from the textbox
+	  function getTextboxValue(){
+	    return document.getElementById("inputText").value;
+	  }
+	  // to reset the textbox
+	  function reset(){
+	    return document.getElementById("inputText").value="";
+	  }
+	</script>
+
+  </body>
+</html>
+
+
+--------------- cart------------
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Cart</title>
+	<meta charset="utf-8"/>
+  </head>
+  <body id="main">
+    <div id="items">
+	  
+	</div>
+	<div id="shoppingCart">
+	
+	</div>
+	
+	<script>
+	  var i=0;
+	  var itemList=[{name:"Pen", quantity:"41", price:"10", image:"pen.png"},
+	                {name:"Pencil", quantity:"37", price:"5", image:"pencil.png"},
+					{name:"Eraser", quantity:"19", price:"5", image:"eraser.png"},
+					{name:"Notebook", quantity:"49", price:"40", image:"notebook.png"}];
+	  var itemsDiv=[];
+	  var listLength=itemList.length;
+	  var itemsSection=document.getElementById("items");
+	  var cartButton=[];//array for storing the buttons
+	  var itemImage=[];//array for storing the image tags
+	  for(i=0;i<listLength;i++){
+    	itemsDiv[i]=createDiv();//create div
+		itemsSection.appendChild(itemsDiv[i]);//append div into div id=items
+		itemsSection.style.float="left";//makes the cart to move to the left of the items list
+		cartButton[i]=createButton();//create a button
+		cartButton[i].innerHTML="Add to Cart"; //add content to button
+		cartButton[i].setAttribute("id",itemList[i].name);//giving each button an id
+		itemsDiv[i].style.width="700px";//giving the item list a width
+		itemsDiv[i].style.background="cyan";//giving the list item a background 
+		itemsDiv[i].style.border="1px solid black"; // border style of div of current iteration 		
+		itemImage[i]=createImage();//creates image tag
+		itemImage[i].setAttribute("src",itemList[i].image);//sets source attribute
+		itemImage[i].style.width="200px";//sets width of image
+		itemImage[i].style.height="200px";//sets height of image
+		itemsDiv[i].appendChild(itemImage[i]);//appends the image to div of current iteration
+		cartButton[i].setAttribute("onclick","toCart(this.id)")
+		var subItemsDiv=[];//array for the div for individual items in each iteration
+		for(j=0;j<4;j++){
+		  subItemsDiv[j]=createDiv();
+		  itemsDiv[i].appendChild(subItemsDiv[j]);//adding created div's to each item for giving stating name etc
+		}
+		
+		subItemsDiv[0].innerHTML="Item: " + itemList[i].name;//name of item
+		subItemsDiv[1].innerHTML="Price: Rs. " + itemList[i].price;//price of item
+		subItemsDiv[2].innerHTML="Number of peices available: " + itemList[i].quantity; //no. of items available
+		subItemsDiv[2].setAttribute("id",("quant"+itemList[i].name)); //giving div tag's of quantity an id 
+		
+		itemsDiv[i].appendChild(cartButton[i]);//append button to the div created in this iteration
+	  }
+	
+	  function toCart(buttonId){
+	    var cartItemDiv=[];
+		var m=0;
+		var n=1;
+		var cartSection=document.getElementById("shoppingCart");
+	    for(k=0;k<listLength;k++){
+		  if(buttonId==itemList[k].name){
+		    if(document.getElementById(("cart")+itemList[k].name)==null){
+		      cartItemDiv[m]=createDiv();
+		      cartSection.appendChild(cartItemDiv[m]);
+			  cartItemDiv[m].setAttribute("id","cart"+itemList[k].name);
+			  cartItemDiv[m].style.border="1px solid black";
+			  cartItemDiv[m].style.background="lightgray";
+			  cartSubItemDiv=[];
+			  for(l=0;l<3;l++){
+		        cartSubItemDiv[l]=createDiv();
+		        cartItemDiv[m].appendChild(cartSubItemDiv[l]);
+		      }
+			  cartSubItemDiv[0].innerHTML="Item: " + itemList[k].name;
+			  cartSubItemDiv[1].innerHTML="Price: " + itemList[k].price;
+			  cartSubItemDiv[2].innerHTML="Quantity: " + n;
+			  cartSubItemDiv[2].setAttribute("id",itemList[k].name+"quant");
+			  itemList[k].quantity=itemList[k].quantity-n;
+			  document.getElementById("quant"+itemList[k].name).innerHTML="Number of peices available: " + itemList[k].quantity;
+			  m++;
+			  var total=[];
+			  if(document.getElementById("total")==null){//checks if there is a div with id total
+			    total[0]=createDiv();//no div so creates a div
+                document.getElementById("main").appendChild(total[0]);//adds the div to body
+                total[0].setAttribute("id","total");//gives the div id as total
+				total[0].style.textAlign="right";
+				total[0].style.background="pink";
+                document.getElementById("total").innerHTML="Total Amount: " + itemList[k].price;//sets the total price as price of current item				
+			  }
+			  else{//div with id total exists
+			    var totalString=document.getElementById("total").innerHTML;//get the total price so far
+				var totalSplit=totalString.split(" ");//split the received string	
+				var totalPrice=parseInt(totalSplit[2]);//takes the price amount from the split string
+				totalPrice=totalPrice+parseInt(itemList[k].price);//add the previous total with the price of current item
+				document.getElementById("total").innerHTML="Total Amount: " + totalPrice;//sets the total price into the tag
+			  }
+			
+			}
+			else{
+			  var quantity=document.getElementById(itemList[k].name+"quant").innerHTML;
+              var quantSplit=quantity.split(" ");
+			  document.getElementById(itemList[k].name+"quant").innerHTML="Quantity: " + (parseInt(quantSplit[1])+1);
+			  itemList[k].quantity=itemList[k].quantity-n;
+			  document.getElementById("quant"+itemList[k].name).innerHTML="Number of peices available: " + itemList[k].quantity;
+			  var totalString=document.getElementById("total").innerHTML;//get the total price so far
+			  var totalSplit=totalString.split(" ");//split the received string	
+			  var totalPrice=parseInt(totalSplit[2]);//takes the price amount from the split string
+			  totalPrice=totalPrice+parseInt(itemList[k].price);//add the previous total with the price of current item
+			  document.getElementById("total").innerHTML="Total Amount: " + totalPrice;//sets the total price into the tag
+			}
+		  }
+		}
+		
+		
+		
+	  }
+	  
+	  function createDiv(){
+	    return document.createElement("div");
+	  }
+	  function createButton(){
+	    return document.createElement("button");
+	  }
+	  function createImage(){
+	    return document.createElement("img");
+	  }
+	</script>
+  </body>
+</html>
+
+
+
+
+
+contians 
+eraser, notebook pen pencil images
